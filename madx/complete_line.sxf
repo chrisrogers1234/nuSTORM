@@ -1,0 +1,197 @@
+// SXF version 2.0
+complete_line sequence
+ {
+   cbl_q_1
+     quadrupole {
+         tag = cbl_q_1
+         l = 1
+         at = 2.3
+         body = {
+                 kl = [ 0 -0.185446986543]
+                }
+         };
+   cbl_q_2
+     quadrupole {
+         tag = cbl_q_2
+         l = 1
+         at = 5.3
+         body = {
+                 kl = [ 0 0.30063215969]
+                }
+         };
+   cbl_q_3
+     quadrupole {
+         tag = cbl_q_3
+         l = 1
+         at = 8.3
+         body = {
+                 kl = [ 0 -0.432711800092]
+                }
+         };
+   cbl_q_4
+     quadrupole {
+         tag = cbl_q_4
+         l = 1
+         at = 11.3
+         body = {
+                 kl = [ 0 0.372235082708]
+                }
+         };
+   dba_disp_open
+     marker {
+         tag = dba_disp_open
+         at = 13.8
+         };
+   dba_dp
+     sbend {
+         tag = dba_dp
+         arc = 2
+         at = 14.8
+         body = {
+                 kl = [ 0.1]
+                }
+         };
+   dba_quad_d
+     quadrupole {
+         tag = dba_quad_d
+         l = 1
+         at = 16.6
+         body = {
+                 kl = [ 0 -0.281051874188]
+                }
+         };
+   dba_quad_f
+     quadrupole {
+         tag = dba_quad_f
+         l = 1
+         at = 20.5
+         body = {
+                 kl = [ 0 0.422969646651]
+                }
+         };
+   dba_quad_d.2
+     quadrupole {
+         tag = dba_quad_d
+         l = 1
+         at = 24.4
+         body = {
+                 kl = [ 0 -0.281051874188]
+                }
+         };
+   dba_dp.2
+     sbend {
+         tag = dba_dp
+         arc = 2
+         at = 26.2
+         body = {
+                 kl = [ 0.1]
+                }
+         };
+   dba_disp_close
+     marker {
+         tag = dba_disp_close
+         at = 27.2
+         };
+   rm_q_7
+     quadrupole {
+         tag = rm_q_7
+         l = 1
+         at = 29.7
+         body = {
+                 kl = [ 0 0.398589934997]
+                }
+         };
+   rm_q_6
+     quadrupole {
+         tag = rm_q_6
+         l = 1
+         at = 31.587
+         body = {
+                 kl = [ 0 -0.340795910658]
+                }
+         };
+   rm_disp_close
+     marker {
+         tag = rm_disp_close
+         at = 34.087
+         };
+   rm_dp_2
+     sbend {
+         tag = rm_dp_2
+         arc = 2.5
+         at = 35.337
+         body = {
+                 kl = [ -0.104299213584]
+                }
+         };
+   rm_q_5
+     quadrupole {
+         tag = rm_q_5
+         l = 0.7079
+         at = 37.41515
+         body = {
+                 kl = [ 0 0.55555992]
+                }
+         };
+   rm_q_4
+     quadrupole {
+         tag = rm_q_4
+         l = 0.6192
+         at = 38.5396
+         body = {
+                 kl = [ 0 -0.47882736]
+                }
+         };
+   aperture_change
+     marker {
+         tag = aperture_change
+         at = 38.8492
+         };
+   rm_q_3
+     quadrupole {
+         tag = rm_q_3
+         l = 0.5528
+         at = 42.665
+         body = {
+                 kl = [ 0 -0.06451176]
+                }
+         };
+   rm_q_2
+     quadrupole {
+         tag = rm_q_2
+         l = 1.2513
+         at = 45.87525
+         body = {
+                 kl = [ 0 0.2890503]
+                }
+         };
+   rm_dp_1
+     sbend {
+         tag = rm_dp_1
+         arc = 2.5
+         at = 48.1604
+         body = {
+                 kl = [ 0.311131023497]
+                }
+         };
+   rm_q_1
+     quadrupole {
+         tag = rm_q_1
+         l = 0.5846
+         at = 50.1027
+         body = {
+                 kl = [ 0 -0.1595958]
+                }
+         };
+   inj_sep
+     sbend {
+         tag = inj_sep
+         arc = 2.5
+         at = 51.785
+         body = {
+                 kl = [ -0.305]
+                }
+         };
+ endsequence at = 53.035
+}
+// SXF end

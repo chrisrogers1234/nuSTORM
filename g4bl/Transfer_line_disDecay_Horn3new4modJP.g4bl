@@ -1,0 +1,147 @@
+physics QGSP_BERT disable=Decay
+trackcuts keep=pi+,nu_mu
+
+#Reference particle & beam
+param M=138.570 P=5 #GeV/c test3=5 test4=1.2GeV/c and test5=7.2GeV/c
+param KE=sqrt(P*P+M*M)-M
+param GAMMA=($KE+$M)/$M
+param BETA=sqrt(1-1/($GAMMA*$GAMMA))
+reference particle=pi+ beamZ=1100 referenceMomentum=$P*5000
+#beam gaussian particle=pi+ nEvents=17108 beamZ=1100 meanMomentum=$P*1000 sigmaX=12 sigmaY=12 sigmaP=250
+beam ascii file=Horn_output_test3test.txt nEvents=100 #nEvents=17108  #z=1.1 #can set events to 100 when testing so it does not take so long to run
+
+param maxStep=1
+
+virtualdetector DetVirtual radius=1000 length=1 color=1,1,0 #coordinates=local 
+place DetVirtual rename=Det# z=1110
+ntuple NTupleOut category=NTuples detectors=Det1 filename=Trial_NTuple_output format=ascii
+
+
+#Collimator - used transfer line figure to calculate widths and heights
+#Make sure everything can be adjusted easily
+param width1=1047 height1=0500 \
+width2=1387 height2=0500 \
+width3=2248 height3=0500 \
+width4=1387 height4=0500 \
+z1=3550 z2=12500 z3=19000 z4=27800
+
+param BoxThickness=2000 BoxLength=1000
+
+box Col1Top width=$width1 height=$BoxThickness length=$BoxLength kill=1
+box Col1Side width=$BoxThickness height=$height1+2*$BoxThickness length=$BoxLength kill=1
+box Col2Top width=$width2 height=$BoxThickness length=$BoxLength kill=1
+box Col2Side width=$BoxThickness height=$height2+2*$BoxThickness length=$BoxLength kill=1
+box Col3Top width=$width3 height=$BoxThickness length=$BoxLength kill=1
+box Col3Side width=$BoxThickness height=$height3+2*$BoxThickness length=$BoxLength kill=1
+box Col4Top width=$width4 height=$BoxThickness length=$BoxLength kill=1
+box Col4Side width=$BoxThickness height=$height4+2*$BoxThickness length=$BoxLength kill=1
+
+
+# Place quadrupoles and bending magnets as described
+
+param K=0.2998 P0=5 #GeV
+param scale=$P/$P0
+genericquad Cbl_q_1 fieldLength=1000 ironLength=1000 ironRadius=2000 apertureRadius=250 gradient=-0.253169*$P0*$scale/($K) kill=1
+place Cbl_q_1 z=2300
+
+place Col1Top x=0 y=($height1+$BoxThickness)/2 z=$z1
+place Col1Top x=0 y=-($height1+$BoxThickness)/2 z=$z1
+place Col1Side x=($width1+$BoxThickness)/2 y=0 z=$z1
+place Col1Side x=-($width1+$BoxThickness)/2 y=0 z=$z1
+
+genericquad Cbl_q_2 fieldLength=1000 ironLength=1000 ironRadius=500 apertureRadius=350 gradient=0.350557*$P0*$scale/$K
+place Cbl_q_2 z=5300
+
+place DetVirtual z=6000 rename=Det#
+
+genericquad Cbl_q_3 fieldLength=1000 ironLength=1000 ironRadius=500 apertureRadius=250 gradient=-0.359935*$P0*$scale/$K
+place Cbl_q_3 z=8300
+
+genericquad Cbl_q_4 fieldLength=1000 ironLength=1000 ironRadius=500 apertureRadius=250 gradient=0.2617*$P0*$scale/$K
+place Cbl_q_4 z=11300
+
+
+place Col2Top x=0 y=($height2+$BoxThickness)/2 z=$z2
+place Col2Top x=0 y=-($height2+$BoxThickness)/2 z=$z2
+place Col2Side x=($width2+$BoxThickness)/2 y=0 z=$z2
+place Col2Side x=-($width2+$BoxThickness)/2 y=0 z=$z2
+
+param rad=180*7.00282/22
+
+#sbend
+genericsectorbend dba_dp angle=0.1*$rad fieldCenterRadius=2000/0.1 fieldOuterRadius=2030/0.1 fieldInnerRadius=1970/0.1 fieldHeight=600 ironOuterRadius=2030/0.1 ironInnerRadius=1970/0.1 ironHeight=1000 ironColor=1,0,0 kill=1 DipoleField=-($P0*$scale)/($K*2/0.1)
+place dba_dp z=13800 
+cornerarc z=13800 centerRadius=2000/0.1 angle=0.1*$rad
+
+
+genericquad dba_quad_d fieldLength=1000 ironLength=1000 ironRadius=500 apertureRadius=250 gradient=-0.281051874188*$P0*$scale/$K
+place dba_quad_d z=16600
+
+genericquad dba_quad_f fieldLength=1000 ironLength=1000 ironRadius=500 apertureRadius=250 gradient=0.422969646651*$P0*$scale/$K
+place dba_quad_f z=20500
+
+place Col3Top x=0 y=($height3+$BoxThickness)/2 z=$z3
+place Col3Top x=0 y=-($height3+$BoxThickness)/2 z=$z3
+place Col3Side x=($width3+$BoxThickness)/2 y=0 z=$z3
+place Col3Side x=-($width3+$BoxThickness)/2 y=0 z=$z3
+
+place DetVirtual z=22000 rename=Det#
+
+place dba_quad_d z=24400
+
+#sbend
+place dba_dp z=25200
+cornerarc z=25200 angle=0.1*$rad centerRadius=2000/0.1
+
+place Col4Top x=0 y=($height4+$BoxThickness)/2 z=$z4
+place Col4Top x=0 y=-($height4+$BoxThickness)/2 z=$z4
+place Col4Side x=($width4+$BoxThickness)/2 y=0 z=$z4
+place Col4Side x=-($width4+$BoxThickness)/2 y=0 z=$z4
+
+genericquad rm_q_7 fieldLength=1000 ironLength=1000 ironRadius=500 apertureRadius=250 gradient=0.398589934997*$P0*$scale/$K
+place rm_q_7 z=29700
+
+genericquad rm_q_6 fieldLength=1000 ironLength=1000 ironRadius=500 apertureRadius=250 gradient=-0.340795910658*$P0*$scale/$K
+place rm_q_6 z=31587
+
+
+#Sbend
+genericsectorbend rm_dp_2 angle=-0.104299213584*$rad fieldCenterRadius=2500/0.104299213584 fieldOuterRadius=2530/0.104299213584 fieldInnerRadius=2470/0.104299213584 fieldHeight=600 ironOuterRadius=2530/0.104299213584 ironInnerRadius=2470/0.104299213584 ironHeight=1000 ironColor=1,0,0 kill=1 DipoleField=-($P0*$scale)/($K*(2.5/-0.104299213584))
+place rm_dp_2 z=35337-1250
+cornerarc z=35337-1250 centerRadius=2500/0.104299213584 angle=-0.104299213584*$rad
+
+
+genericquad rm_q_5 fieldLength=707.9 ironLength=707.9 ironRadius=500 apertureRadius=250 gradient=0.55555992*$P0*$scale/$K/0.7079
+place rm_q_5 z=37415.15
+
+genericquad rm_q_4 fieldLength=619.2 ironLength=619.2 ironRadius=500 apertureRadius=250 gradient=-0.47882736*$P0*$scale/$K/0.6192
+place rm_q_4 z=38539.6
+
+
+place DetVirtual z=41000 rename=Det#
+
+genericquad rm_q_3 fieldLength=552.8 ironLength=552.8 ironRadius=500 apertureRadius=250 gradient=-0.06451176*$P0*$scale/$K/0.5528
+place rm_q_3 z=42665
+
+genericquad rm_q_2 fieldLength=1251.3 ironLength=1251.3 ironRadius=500 apertureRadius=320 gradient=0.2890503*$P0*$scale/$K/1.2513
+place rm_q_2 z=45875.25
+
+
+#Sbend
+genericsectorbend rm_dp_1 angle=0.311131023497*$rad fieldCenterRadius=2500/0.311131023497 fieldOuterRadius=2702/0.311131023497 fieldInnerRadius=2298/0.311131023497 fieldHeight=600 ironOuterRadius=2802/0.311131023497 ironInnerRadius=2198/0.311131023497 ironHeight=1000 ironColor=1,0,0 kill=1 DipoleField=-(($P0*$scale)/($K*2.5/0.311131023497))
+place rm_dp_1 z=48160.4-1250
+cornerarc z=48160.4-1250 angle=0.311131023497*$rad centerRadius=2500/0.311131023497
+
+
+genericquad rm_q_1 fieldLength=584.6 ironLength=584.6 ironRadius=500 apertureRadius=300 gradient=-0.1595958*$P0*$scale/$K/0.5846
+place rm_q_1 z=50102.7
+
+
+#Sbend
+genericsectorbend inj_sep angle=-0.305*$rad fieldCenterRadius=2500/0.305 fieldOuterRadius=2586/0.305 fieldInnerRadius=2414/0.305 fieldHeight=600 ironOuterRadius=2590/0.305 ironInnerRadius=2410/0.305 ironHeight=1000 ironColor=1,0,0 kill=1 DipoleField=-(($P)/($K*2.5/-0.305))
+place inj_sep z=51785-1250
+cornerarc z=51785-1250 angle=-0.305*$rad centerRadius=2500/0.305
+
+place DetVirtual rename=Det# z=53035 #measure at end of line
+ntuple EndDetNTuple category=NTuples detectors=Det# filename=EndDetNTuple format=ascii
+#Read the file and plot a graph
